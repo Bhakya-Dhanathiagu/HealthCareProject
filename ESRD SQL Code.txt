@@ -1,7 +1,6 @@
 ---------------------------------------------------------------------------------------
--- Here, we pull patients who had some encounter with us between 2021 and 2022
--- These are our "Active" patients. We do this to remove patients from final query who 
--- may have received care years ago, but maybe moved to a different state, city, etc.
+-- Analysis of patients who had End-Stage Renal Disease in 2022
+-- Filter out inactive patients
 ---------------------------------------------------------------------------------------
 
 with active_pats as
@@ -11,9 +10,9 @@ with active_pats as
 	where start between '2021-01-01 00:00' and '2022-12-31 23:59'
 ),
 
----------------------------------------------------------------------------------------------
--- Exclusion 1: Transplant Cases, will use this CTE to kick them out of the ESRD cohot later 
----------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------
+-- Create Transplant Cases Common Table Expression to remove patients who got transplants, meaning they are no longer part of ESRD
+-----------------------------------------------------------------------------------------------------------------------------------
 
 transplants as
 (
@@ -57,8 +56,7 @@ esrd as
 ),
 
 -----------------------------------------------------------------------------------------
--- Here, we are constructing the main dates that we will need to join to the ESRD CTE
--- This will allow us to build out our patient months
+-- Creating main dates that will be needed to join to ESRD
 -----------------------------------------------------------------------------------------
 
 obs_dates as
@@ -112,7 +110,7 @@ prep as
 ),
 
 --------------------------------------------------------------------------------------------
--- Gather all relevant labs, and determine the nth lab per each lab's patient/month combo
+-- Gather all relevant labs, and determine the nth lab per each lab's patient-month combination
 -- e.g. the 1st,2nd,3rd,etc. sodium pulled for Patient X, in Jan 2022
 --------------------------------------------------------------------------------------------
 
