@@ -1,4 +1,4 @@
--- Run all this code at once in PostgreSQL to create 15 (fake) EHR data tables --
+-- PostgreSQL Code to create EHR data tables --
 
 CREATE TABLE IF NOT EXISTS allergies
 (
